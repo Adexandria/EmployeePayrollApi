@@ -53,8 +53,8 @@ namespace EmployeePayroll.Controllers
             };
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagingMeta));
             var link = CreateEmployeesLink(sizes, employees.HasNext, employees.Hasprevious);
-            var addedLink = mapper.Map<IEnumerable<EmployeesDto>>(employees);
-            var addlink = addedLink.Select(a =>
+            var addedLink = mapper.Map<IEnumerable<EmployeesDto>>(employees).ShapeData(sizes.Fields) as IDictionary<string,object>;
+              var addlink = addedLink.Select(a =>
             {
                 var studentasdictionary = a.ShapeData(sizes.Fields) as IDictionary<string, object>;
                 var studentLinks = CreateEmployeeLink((Guid)studentasdictionary["EmployeeId"], null);
@@ -67,7 +67,7 @@ namespace EmployeePayroll.Controllers
                 link
             };
 
-            return Ok(linkCollection);
+            return Ok(addedLink);
 
         }
         [HttpGet("{id}", Name = "Employee")]
@@ -80,7 +80,7 @@ namespace EmployeePayroll.Controllers
             }
           
             var newemployee = mapper.Map<EmployeeDto>(employee).ShapeData(fields) as IDictionary<string, object>;
-            return Ok(employee);
+            return Ok(newemployee);
 
         }
         [HttpPost]
