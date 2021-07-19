@@ -21,7 +21,6 @@ namespace EmployeePayroll.Model
         public string IsAuthorizedToLeave { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
-        public Guid BankAccountId { get; set; }
 
     }
 }

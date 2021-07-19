@@ -1,8 +1,6 @@
 ﻿using EmployeePayroll.Entities;
 using EmployeePayroll.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmployeePayroll.Services
@@ -11,9 +9,13 @@ namespace EmployeePayroll.Services
     {
         public PageList<Employee> Employees(PageSizes sizes);
         public Task<Employee> GetEmployee(Guid EmployeeId);
-        Task<Employee> Add(Employee employee);
+        Task Add(Employee employee);
         Task<int> Save();
         Employee Update(Employee employee);
         public Task<int> Delete(Guid EmployeeId);
+
+        public Task<Address> UpdateAddress(Address address,Guid employeeId);
+
+        public Task<Bank> UpdateBankDetails(Bank bank,Guid employeeId);
     }
 }

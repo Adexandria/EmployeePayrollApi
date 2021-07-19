@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\HP 650\\source\\repos\\EmployeePayroll\\EmployeePayroll\\EmployeePayroll.csproj": {}
+    "C:\\Users\\T14\\Documents\\Local Git\\EmployeePayrollApi\\EmployeePayroll\\EmployeePayroll.csproj": {}
   },
   "projects": {
-    "C:\\Users\\HP 650\\source\\repos\\EmployeePayroll\\EmployeePayroll\\EmployeePayroll.csproj": {
+    "C:\\Users\\T14\\Documents\\Local Git\\EmployeePayrollApi\\EmployeePayroll\\EmployeePayroll.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HP 650\\source\\repos\\EmployeePayroll\\EmployeePayroll\\EmployeePayroll.csproj",
+        "projectUniqueName": "C:\\Users\\T14\\Documents\\Local Git\\EmployeePayrollApi\\EmployeePayroll\\EmployeePayroll.csproj",
         "projectName": "EmployeePayroll",
-        "projectPath": "C:\\Users\\HP 650\\source\\repos\\EmployeePayroll\\EmployeePayroll\\EmployeePayroll.csproj",
-        "packagesPath": "C:\\Users\\HP 650\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\HP 650\\source\\repos\\EmployeePayroll\\EmployeePayroll\\obj\\",
+        "projectPath": "C:\\Users\\T14\\Documents\\Local Git\\EmployeePayrollApi\\EmployeePayroll\\EmployeePayroll.csproj",
+        "packagesPath": "C:\\Users\\T14\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\T14\\Documents\\Local Git\\EmployeePayrollApi\\EmployeePayroll\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\HP 650\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\T14\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -29,6 +26,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -40,6 +38,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
@@ -94,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -19,11 +19,11 @@ namespace EmployeePayroll.Model
         public string Phonenumber { get; set; }
         public string Homenumber { get; set; }
         public string IsAuthorizedToLeave { get; set; }
+        public Address Address { get; set; }
+        public Bank Bank { get; set; }
+        public OpenBalances OpenBalance { get; set; }
+        public PayTemplates PayTemplate { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
-        public BankDto Bank { get; set; }
-        public Address Address { get; set; }
-        public TemDto PayTemplates { get; set; }
-        public OpenDto OpenBalances { get; set; }
     }
 }

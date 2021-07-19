@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace EmployeePayroll.Entities
 {
     public abstract class PayLines
     {
-        public EarningsLines EarningsLines { get; set; }
-        public DeductionLines DeductionLines { get; set; }
-        public SuperLines SuperLines { get; set; }
-        public ReimbursementLines ReimbursementLines { get; set; }
-        public LeaveLines LeaveLines { get; set; }
+        public EarningsLines EarningsLine { get; set; }
+        public DeductionLines DeductionLine { get; set; }
+        public SuperLines SuperLine { get; set; }
+        public  ReimbursementLines ReimbursementLine { get; set; }
+        public  LeaveLines LeaveLine { get; set; }
+
 
     }
 }

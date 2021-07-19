@@ -3,7 +3,6 @@ using EmployeePayroll.Helpers;
 using EmployeePayroll.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,41 +29,27 @@ namespace EmployeePayroll.Services
             return PageList<Employee>.Create(employees, sizes.PageNumber, sizes.PageSize);
         }
 
-        public async Task<Employee> Add(Employee employee)
+        public async Task Add(Employee employee)
         {
-          
             if (employee == null)
             {
                 throw new NullReferenceException(nameof(employee));
             }
-            if(employee.BankAccount== null)
-            {
-                employee.BankAccount.BankAccountId = Guid.NewGuid();
-            }
-            
-            employee.EmployeeId = Guid.NewGuid();      
-            employee.AddressId = Guid.NewGuid();
-            employee.OpenBalancesId = Guid.NewGuid();
-            employee.TemplatesId = Guid.NewGuid();
-            employee.LinesId = Guid.NewGuid();
-            employee.Guid = Guid.NewGuid();
-            employee.ReId = Guid.NewGuid();
-            employee.SuperId = Guid.NewGuid();
-            employee.MembershipId = Guid.NewGuid();
-            employee.EarningId = Guid.NewGuid();
-            employee.DeductionId = Guid.NewGuid();
-            employee.BalanceId = Guid.NewGuid();
+            CreateGuidId(employee);
             await db.Employee.AddAsync(employee);
-            return employee;
+            await Save();
         }
-
+        private void CreateGuidId(Employee employee) 
+        {
+            employee.EmployeeId = Guid.NewGuid();      
+            
+        }
         public async Task<int> Delete(Guid EmployeeId)
         {
             var query = await GetEmployee(EmployeeId);
             if(query == null)
             {
                 throw new NullReferenceException(nameof(query));
-
             }
             db.Employee.Remove(query);
             return await db.SaveChangesAsync();
@@ -78,18 +63,6 @@ namespace EmployeePayroll.Services
             }
             return await db.Employee
                 .Where(r => r.EmployeeId == EmployeeId)
-                .Include(r => r.BankAccount)
-                .Include(r => r.HomeAddress)
-                .Include(r => r.OpenBalances)
-                .Include(r => r.PayTemplates)
-                .Include(r => r.OpenBalances).ThenInclude(r => r.LeaveLines)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.DeductionLines)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.LeaveBalances)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.ReimbursementLines)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.LeaveLines)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.SuperLines)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.SuperMemberships)
-                 .Include(r => r.PayTemplates).ThenInclude(r => r.EarningsLines)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
@@ -105,6 +78,56 @@ namespace EmployeePayroll.Services
             return employee;
         }
 
-      
+        public async Task<Address> UpdateAddress(Address address, Guid employeeId)
+        {
+            var employee = await GetEmployee(employeeId);
+            if(employee == null) 
+            {
+                throw new NullReferenceException(nameof(employee));
+            }
+            var currentAddress = await GetAddressAsync(address.HomeAddressId);
+            if(currentAddress == null) 
+            {
+                throw new NullReferenceException(nameof(employee));
+            }
+            db.Entry(currentAddress).State = EntityState.Detached;
+            db.Entry(address).State = EntityState.Modified;
+            await Save();
+            return address;
+        }
+
+        public async Task<Bank> UpdateBankDetails(Bank bank, Guid employeeId)
+        {
+            var employee = await GetEmployee(employeeId);
+            if (employee == null)
+            {
+                throw new NullReferenceException(nameof(employee));
+            }
+            var currentbank = await GetAddressAsync(bank.BankAccountId);
+            if (currentbank == null)
+            {
+                throw new NullReferenceException(nameof(employee));
+            }
+            db.Entry(currentbank).State = EntityState.Detached;
+            db.Entry(bank).State = EntityState.Modified;
+            await Save();
+            return bank;
+        }
+        private async Task<Address> GetAddressAsync(Guid id)
+        {
+            if (id == null)
+            {
+                throw new NullReferenceException(nameof(id));
+            }
+            return await db.Address.Where(s => s.HomeAddressId == id).FirstOrDefaultAsync();
+        }
+        private async Task<Bank> GetBankAsync(Guid id)
+        {
+            if (id == null)
+            {
+                throw new NullReferenceException(nameof(id));
+            }
+            return await db.Bank.Where(s => s.BankAccountId == id).FirstOrDefaultAsync();
+        }
     }
 }

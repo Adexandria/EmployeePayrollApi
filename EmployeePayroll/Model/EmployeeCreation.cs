@@ -27,24 +27,14 @@ namespace EmployeePayroll.Model
         public string JobTitle { get; set; }
         [Required(ErrorMessage = "Enter number")]
         public string Phonenumber { get; set; }
-        public string Homenumber { get; set; }
-        public Guid BankId { get; set; }
-        public Guid AddressId { get; set; }
-        public Guid OpenBalancesId { get; set; }
-        public Guid LinesId { get; set; }
-        public Guid DeductionId { get; set; }
-        public Guid EarningId { get; set; }
-        public Guid ReId { get; set; }
-        public Guid SuperId { get; set; }
-        public Guid Guid { get; set; }
-        public Guid MembershipId { get; set; }
-        public Guid BalanceId { get; set; }
-        public Guid TemplatesId { get; set; }
+        public string Homenumber { get; set; } 
         [Required(ErrorMessage = "True/False")]
         public string IsAuthorizedToLeave { get; set; }
         [Required(ErrorMessage = "yyyy-mm-dd")]
         public DateTimeOffset StartDate { get; set; }
         [Required(ErrorMessage = "yyyy-mm-dd")]
         public DateTimeOffset UpdatedDate { get; set; }
+  
+       
     }
 }

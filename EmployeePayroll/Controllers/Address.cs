@@ -24,7 +24,7 @@ namespace EmployeePayroll.Controllers
 
         }
         [HttpPut(Name ="Address")]
-        public async Task<ActionResult<Entities.Employee>> Put(Guid id,AddressCreation address)
+        public async Task<ActionResult<Entities.Employee>> AddressDetails(Guid id,AddressCreation address)
         {
             var query = await db.GetEmployee(id);
             if( query == null)
@@ -32,8 +32,7 @@ namespace EmployeePayroll.Controllers
                 return NotFound();
             }
             var newAddress = mapper.Map<Entities.Address>(address);
-            query.HomeAddress = newAddress;
-            db.Update(query);
+            await db.UpdateAddress(newAddress, id);
             await db.Save();
             return Ok();
         }

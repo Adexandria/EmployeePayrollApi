@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EmployeePayroll.Model;
@@ -12,34 +10,30 @@ using Microsoft.AspNetCore.Mvc;
 namespace EmployeePayroll.Controllers
 {
     [ApiController]
-    [Route("api/employee/{id}/balances")]
+    [Route("api/employee/{id}/balances/{balanceId}")]
     public class OpenBalances : ControllerBase
     {
         private readonly IData db;
         private readonly IMapper mapper;
-        private readonly IOpenBalance open1;
-        public OpenBalances(IMapper mapper, IPropertyMappingService propertyMapping, IOpenBalance open1, IData db)
+        private readonly IOpenBalance open;
+        public OpenBalances(IMapper mapper,IOpenBalance open, IData db)
         {
-            this.open1 = open1 ?? throw new NullReferenceException(nameof(open1));
+            this.open = open ?? throw new NullReferenceException(nameof(open));
             this.db = db ?? throw new NullReferenceException(nameof(db));
             this.mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
 
 
         }
         [HttpPut(Name = "Balances")]
-        public async Task<ActionResult<OpenDto>> Put(Guid id, OpenUpdate open)
+        public async Task<ActionResult<OpenDto>> Put(Guid id, OpenUpdate openUpdate,Guid balanceId)
         {
             var query = await db.GetEmployee(id);
             if (query == null)
             {
                 return NotFound();
             }
-            var newbalance = mapper.Map<Entities.OpenBalances>(open);
-            
-            open1.Update(newbalance);
-            open1.Save();
-            query.OpenBalances = newbalance;
-            db.Update(query);
+            var newbalance = mapper.Map<Entities.OpenBalances>(openUpdate);
+            await open.Update(newbalance, balanceId);
             await db.Save();
             return Ok(query);
         }

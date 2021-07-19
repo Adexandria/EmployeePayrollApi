@@ -1,14 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeePayroll.Entities
 {
-    public class PayTemplates:PayLines
+    public class PayTemplates : PayLines
     {
         [Key]
-        public Guid PayTemplatesId { get; set; }
-        
-        public SuperMemberships SuperMemberships { get; set; }
-        public LeaveBalances LeaveBalances { get; set; }
+        public Guid PayTemplateId { get; set; }
+        public SuperMemberships SuperMembership { get; set; }
+        public LeaveBalances LeaveBalance {get;set;}
+
     }
 }

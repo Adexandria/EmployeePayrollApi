@@ -1,7 +1,6 @@
 ﻿using EmployeePayroll.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -19,17 +18,16 @@ namespace EmployeePayroll.Services
 
         }
         
-        public async Task<LeaveLines> GetLeaveId(Guid id)
+        public async Task<LeaveLines> GetLeaveLineAsync(Guid id)
         {
-            
             return await db.LeaveLines
-                .Where(r => r.LeaveLinesId == id)
+                .Where(r => r.LeaveLineId == id)
                 .FirstOrDefaultAsync();
         }
       
       
        
-        private async Task<OpenBalances> GetOpenBalances(Guid Id)
+        private async Task<OpenBalances> GetOpenBalance(Guid Id)
         {
 
             if (Id == null)
@@ -37,19 +35,51 @@ namespace EmployeePayroll.Services
                 throw new NullReferenceException(nameof(Id));
             }
             
-            return await db.OpenBalances.Where(r => r.OpenBalancesId == Id).Include(r=>r.LeaveLines).FirstOrDefaultAsync();
-        }
-        public OpenBalances Update(OpenBalances openBalances)
-        {
-            
-            var query = db.OpenBalances.Attach(openBalances);
-            query.State = EntityState.Modified;
-            return openBalances;
+            return await db.OpenBalances.Where(r => r.OpenBalanceId == Id).Include(r=>r.LeaveLine).FirstOrDefaultAsync();
         }
 
-        public int Save()
+        public async Task<OpenBalances> Update(OpenBalances openBalance,Guid id)
         {
-            return db.SaveChanges();
+
+            var currentOpenBalance = await GetOpenBalance(id);
+            if (currentOpenBalance == null)
+            {
+
+                await db.OpenBalances.AddAsync(openBalance);
+                await Save();
+            }
+            else
+            {
+                db.Entry(currentOpenBalance).State = EntityState.Detached;
+                db.Entry(openBalance).State = EntityState.Modified;
+                await Save();
+            }
+            return await GetOpenBalance(openBalance.OpenBalanceId);
+        }
+        public async Task<LeaveLines> UpdateLeaveLine(LeaveLines leaveLine, Guid openBalanceId)
+        {
+            var currentopenBalance = await GetOpenBalance(openBalanceId);
+            if (currentopenBalance == null)
+            {
+                throw new NullReferenceException(nameof(currentopenBalance));
+            }
+            var currentleaveLine = await GetLeaveLineAsync(leaveLine.LeaveLineId);
+            if (currentleaveLine == null)
+            {
+                leaveLine.LeaveLineId = Guid.NewGuid();
+                await db.LeaveLines.AddAsync(leaveLine);
+            }
+            else
+            {
+                db.Entry(currentleaveLine).State = EntityState.Detached;
+                db.Entry(leaveLine).State = EntityState.Modified;
+                await Save();
+            }
+            return leaveLine;
+        }
+        public async Task<int> Save()
+        {
+            return await db.SaveChangesAsync();
         }
     }
 }

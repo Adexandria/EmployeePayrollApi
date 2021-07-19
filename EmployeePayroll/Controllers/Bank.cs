@@ -37,8 +37,7 @@ namespace EmployeePayroll.Controllers
                 return NotFound();
             }
             var newbank = mapper.Map<Entities.Bank>(bank);
-            query.BankAccount = newbank;
-            db.Update(query);
+            await db.UpdateBankDetails(newbank,id);
             await db.Save();
             return Ok();
         }

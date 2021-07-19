@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -26,6 +25,7 @@ namespace EmployeePayroll.Controllers
     public class Employee : Controller
     {
         private readonly IData data;
+        readonly I
         private readonly IMapper mapper;
         private readonly IPropertyMappingService propertyMapping;
 
